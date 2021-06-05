@@ -1,0 +1,108 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+main {
+  max-width: 1000px;
+  width: 100%;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+main h1 {
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 0.5em;
+}
+
+main .inputs {
+  background-color: #eee;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+main .inputs dl {
+  font-size: 18px;
+}
+
+main .inputs dl dt {
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+
+main .inputs dl dt:not(:first-of-type) {
+  margin-top: 30px;
+}
+
+main .inputs dl dd label:not(:last-of-type) {
+  margin-right: 30px;
+}
+
+main .inputs dl dd input {
+  font-size: 20px;
+  padding: 7px;
+}
+
+main .inputs dl dd input[type="number"] {
+  min-width: 100px;
+}
+
+main .inputs button {
+  display: block;
+  color: #fff;
+  font-weight: bold;
+  background-color: #16f;
+  box-shadow: 0 3px #002b77;
+  font-size: 18px;
+  border: 0;
+  outline: none;
+  padding: 10px 15px;
+  margin: 0 auto;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+@media screen and (max-width: 769px) {
+  main .inputs button:hover {
+    transform: translateY(3px);
+    box-shadow: 0 0;
+  }
+}
+
+main .passwordList {
+  list-style: none;
+  counter-reset: passwordNumber 0;
+}
+
+main .passwordList li {
+  position: relative;
+  padding-left: 2.5em;
+}
+
+main .passwordList li:not(:first-of-type) {
+  margin-top: 10px;
+}
+
+main .passwordList li::before {
+  counter-increment: passwordNumber 1;
+  content: counter(passwordNumber);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+main .passwordList li input {
+  font-size: 20px;
+  padding: 7px;
+}

@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+$breakPoint: 768px;
+
+@mixin mediaTablet {
+    @media screen and (max-width: $breakPoint) {
+        @content;
+    }
+}
+
+@mixin mediaPC {
+    @media screen and (max-width: $breakPoint + 1px) {
+        @content;
+    }
+}
+
+@mixin inputStyle {
+    font-size: 20px;
+    padding: 7px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    color: #333;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+main {
+    max-width: 1000px;
+    width: 100%;
+    margin: 50px auto;
+    padding: 20px;
+    h1 {
+        font-weight: bold;
+        font-size: 30px;
+        margin-bottom: 0.5em;
+    }
+
+    .inputs {
+        background-color: #eee;
+        padding: 20px;
+        margin-bottom: 50px;
+
+        dl {
+            font-size: 18px;
+            dt {
+                font-weight: bold;
+                margin-bottom: .5em;
+                &:not(:first-of-type) {
+                    margin-top: 30px;
+                }
+            }
+            dd {
+                label {
+                    &:not(:last-of-type) {
+                        margin-right: 30px;
+                    }
+                }
+                input {
+                    @include inputStyle;
+                    &[type="number"] {
+                        min-width: 100px;
+                    }
+                }
+            }
+        }
+
+        button {
+            $buttoncolor: #16f;
+            display: block;
+            color: #fff;
+            font-weight: bold;
+            background-color: $buttoncolor;
+            box-shadow: 0 3px darken($buttoncolor, 30%);
+            font-size: 18px;
+            border: 0;
+            outline: none;
+            padding: 10px 15px;
+            margin: 0 auto;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .3s;
+            @include mediaPC {
+                &:hover {
+                    transform: translateY(3px);
+                    box-shadow: 0 0;
+                }
+            }
+        }
+    }
+
+    .passwordList {
+        list-style: none;   
+        counter-reset: passwordNumber 0;
+        li {
+            position: relative;
+            padding-left: 2.5em;
+            &:not(:first-of-type) {
+                margin-top: 10px;
+            }
+            &::before {
+                counter-increment: passwordNumber 1;
+                content: counter(passwordNumber);
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left:0;
+            }
+            input {
+                @include inputStyle
+            }
+        }
+    }
+}
