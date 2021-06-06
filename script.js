@@ -65,40 +65,25 @@ document.getElementById('generateButton').addEventListener('click', e => {      
     }
 
         if(!isoutOfRange && isIncludeNotUseItTwice && passwordLength <= 8) {                                                                        
-            passwordListElement.innerHTML = '';       　　　　　　　　　　　　　　　　　　　　　　　　　//passwordListElementにinnerHTMLで値を入れ込む　今回は空にする
-
-            let notDuplicatedPasswords = [];                                                        //重複チェック用配列
-            let min = 1  , max = passwordLength;                                                    //最小値と最大値 
-            
-            //min以上max以下の整数値の乱数を返す
-            function intRandom(min, max){
-                return  excludedPasswordTexts[Math.floor(Math.random() * excludedPasswordTexts.length)];
-            }
-
-
-            //重複チェックしながら乱数作成
-            for(j = min; j <= max; j++) {
-                while(true) {
-                    var tmp = intRandom(min, max);
-                    if(!notDuplicatedPasswords.includes(tmp)){
-                        notDuplicatedPasswords.push(tmp);
-                        break;
-                    }
-                }
-            }
-
+            passwordListElement.innerHTML = ''; 
             for (let i = 0; i < numberOfPasswords; i++) {
                 let passwords = '';                                                                //空の変数passwordsを定義
-                passwords += notDuplicatedPasswords;
-                
-                
-            const li  = document.createElement('li'),                                          //liの定数の定義　liという新しい要素を生み出している
-                input = document.createElement('input');                                       //inputの定数の定義　inputという新しい要素を生み出している
-            input.value = passwords;                                                           //定数inputにpasswordsを代入
-            li.appendChild(input);                                                             //liに子要素の定数inputを追加
-            passwordListElement.appendChild(li);                                               //passwordListに子要素の定数liを追加  
+                for (let i = 0; i < passwordLength; i++) {
+                    word = ''
+                    while (true) {
+                        word = excludedPasswordTexts[Math.floor(Math.random() * excludedPasswordTexts.length)]
+                        if (passwords.indexOf(word) == -1) {
+                            passwords += word
+                            break;
+                        }
+                    }
+                }
+                const li = document.createElement('li'),                                          //liの定数の定義　liという新しい要素を生み出している
+                    input = document.createElement('input');                                           //inputの定数の定義　inputという新しい要素を生み出している
+                input.value = passwords;                                                           //定数inputにpasswordsを代入
+                li.appendChild(input);                                                             //liに子要素の定数inputを追加
+                passwordListElement.appendChild(li);                                               //passwordListに子要素の定数liを追加
             }
-            
         } else {
             passwordListElement.innerHTML = ''; 
 
