@@ -12,7 +12,7 @@ document.getElementById('generateButton').addEventListener('click', e => {      
           isIncludeEnglishLowerCase = inputs.includeEnglishLowerCase.checked,                  //英小文字にチェックが入っているかどうかを確認するための定数
           isIncludeEnglishUpperCase = inputs.includeEnglishUpperCase.checked,                  //英大文字にチェックが入っているかどうかを確認するための定数
           isIncludeSymbol           = inputs.includeSymbol.checked,                            //記号にチェックが入っているかどうかを確認するための定数
-          isIncludeNotUseItTwice    = inputs.includeNotUseItTwice;
+          isIncludeNotUseItTwice    = inputs.notUseItTwice.checked;                             //8文字以内の場合同じ文字を2回使わないにチェックが入っているかどうかの確認
 
     if(isIncludeNumber || isIncludeEnglishLowerCase || isIncludeEnglishUpperCase || isIncludeSymbol) {            //どれかにチェックされているときの処理
 
@@ -64,27 +64,59 @@ document.getElementById('generateButton').addEventListener('click', e => {      
         }
     }
 
-    if(!isoutOfRange) {                                                                        //カスタムが範囲外の数値だった場合の処理
-        passwordListElement.innerHTML = '';       　　　　　　　　　　　　　　　　　　　　　　　　　//passwordListElementにinnerHTMLで値を入れ込む　今回は空にする
+        if(!isoutOfRange && isIncludeNotUseItTwice && passwordLength <= 8) {                                                                        
+            passwordListElement.innerHTML = '';       　　　　　　　　　　　　　　　　　　　　　　　　　//passwordListElementにinnerHTMLで値を入れ込む　今回は空にする
 
-
-        for (let i = 0; i < numberOfPasswords; i++) {
-            let passwords = '';                                                                //空の変数passwordsを定義
-            for (let i = 0; i < passwordLength; i++) {   
-                passwords +=　excludedPasswordTexts[Math.floor(Math.random() * excludedPasswordTexts.length)]
+            let notDuplicatedPasswords = [];                                                        //重複チェック用配列
+            let min = 1  , max = passwordLength;                                                    //最小値と最大値 
+            
+            //min以上max以下の整数値の乱数を返す
+            function intRandom(min, max){
+                return  excludedPasswordTexts[Math.floor(Math.random() * excludedPasswordTexts.length)];
             }
-        
+
+
+            //重複チェックしながら乱数作成
+            for(j = min; j <= max; j++) {
+                while(true) {
+                    var tmp = intRandom(min, max);
+                    if(!notDuplicatedPasswords.includes(tmp)){
+                        notDuplicatedPasswords.push(tmp);
+                        break;
+                    }
+                }
+            }
+
+            for (let i = 0; i < numberOfPasswords; i++) {
+                let passwords = '';                                                                //空の変数passwordsを定義
+                passwords += notDuplicatedPasswords;
+                
+                
+            const li  = document.createElement('li'),                                          //liの定数の定義　liという新しい要素を生み出している
+                input = document.createElement('input');                                       //inputの定数の定義　inputという新しい要素を生み出している
+            input.value = passwords;                                                           //定数inputにpasswordsを代入
+            li.appendChild(input);                                                             //liに子要素の定数inputを追加
+            passwordListElement.appendChild(li);                                               //passwordListに子要素の定数liを追加  
+            }
+            
+        } else {
+            passwordListElement.innerHTML = ''; 
+
+
+            for (let i = 0; i < numberOfPasswords; i++) {
+                let passwords = '';                                                                //空の変数passwordsを定義
+                for (let i = 0; i < passwordLength; i++) {   
+                    passwords +=　excludedPasswordTexts[Math.floor(Math.random() * excludedPasswordTexts.length)]
+                }
+            
         
 
-        const li  = document.createElement('li'),                                          //liの定数の定義　liという新しい要素を生み出している
-            input = document.createElement('input');                                       //inputの定数の定義　inputという新しい要素を生み出している
-        input.value = passwords;                                                           //定数inputにpasswordsを代入
-        li.appendChild(input);                                                             //liに子要素の定数inputを追加
-        passwordListElement.appendChild(li);                                               //passwordListに子要素の定数liを追加  
+            const li  = document.createElement('li'),                                          //liの定数の定義　liという新しい要素を生み出している
+                input = document.createElement('input');                                       //inputの定数の定義　inputという新しい要素を生み出している
+            input.value = passwords;                                                           //定数inputにpasswordsを代入
+            li.appendChild(input);                                                             //liに子要素の定数inputを追加
+            passwordListElement.appendChild(li);                                               //passwordListに子要素の定数liを追加  
+            }
         }
-        
-    } else {
-        alert('「パスワードを構成する文字」には、すくなくとも1つ以上の項目にチェックを入れて下さい')
     }
-}
 })
